@@ -15,7 +15,6 @@ const fontSpaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:9002"),
   title: 'DocuMind',
   description: 'Yapay Zekâ Destekli Doküman Arama ve Özetleme',
 };
