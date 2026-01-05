@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useTransition, useEffect, useActionState } from "react";
 import type { Document, QaPair } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,8 @@ export function DocumentView({ document }: { document: Document }) {
 
   const { toast } = useToast();
 
+  const router = useRouter();
+
   const [qaHistory, setQaHistory] = useState<QaPair[]>([]);
   
   useEffect(() => {
@@ -52,6 +55,14 @@ export function DocumentView({ document }: { document: Document }) {
         setQaHistory(prev => [answerState.qaPair as QaPair, ...prev]);
     }
   }, [answerState, toast]);
+
+  // 🔄 Özet DB'ye kaydedildikten sonra sayfayı yenile
+  useEffect(() => {
+    if (summaryState.summary) {
+        router.refresh();
+     }
+  }, [summaryState.summary, router]);
+  
 
   return (
     <div className="p-4 md:p-6 space-y-6">
@@ -79,23 +90,31 @@ export function DocumentView({ document }: { document: Document }) {
                             </CardDescription>
                         </div>
                         <form action={summaryFormAction}>
+                            <input type="hidden" name="documentId" value={document.id} />
                             <input type="hidden" name="documentContent" value={document.content} />
+
                             <Button type="submit" disabled={isSummaryPending} variant="outline">
-                                {isSummaryPending ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                                {isSummaryPending ? (
+                                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                <Sparkles className="mr-2 h-4 w-4" />
+                                )}
                                 {isSummaryPending ? "Yenileniyor..." : "Özeti Yenile"}
                             </Button>
                         </form>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    {summaryState.summary ? (
-                    <div className="prose prose-sm max-w-none rounded-md border p-4 bg-muted/50">
-                        <p>{summaryState.summary}</p>
-                    </div>
+                    {document.summary ? (
+                        <div className="prose prose-sm max-w-none rounded-md border p-4 bg-muted/50">
+                        <p>{document.summary.shortText}</p>
+                        </div>
                     ) : (
                         <div className="text-center py-12 text-muted-foreground">
-                            <p>Henüz bir özet oluşturulmadı.</p>
-                            <p className="text-xs">Özet oluşturmak için "Özeti Yenile" düğmesini kullanın.</p>
+                        <p>Henüz bir özet oluşturulmadı.</p>
+                        <p className="text-xs">
+                            Özet oluşturmak için "Özeti Yenile" düğmesini kullanın.
+                        </p>
                         </div>
                     )}
                 </CardContent>
