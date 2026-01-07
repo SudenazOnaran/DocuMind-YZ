@@ -17,7 +17,6 @@ export async function createDocument({
     },
   });
 
-  
   // 2️⃣ MUTLAKA vector-service'e ekle
   await fetch("http://127.0.0.1:8001/add-document", {
     method: "POST",

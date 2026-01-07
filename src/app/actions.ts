@@ -40,41 +40,39 @@ export async function getSummary(prevState: any, formData: FormData) {
   }
 }
 
-
-
 const questionSchema = z.object({
   documentContent: z.string(),
   question: z.string(),
 });
 
 export async function getAnswer(prevState: any, formData: FormData) {
-    const validatedFields = questionSchema.safeParse({
-      documentContent: formData.get("documentContent"),
-      question: formData.get("question"),
-    });
-  
-    if (!validatedFields.success) {
-      return {
-        message: "Geçersiz giriş.",
-        qaPair: null,
-      };
-    }
-  
-    try {
-      const result = await askQuestionAboutDocument(validatedFields.data);
-      return {
-        message: "Cevap başarıyla oluşturuldu.",
-        qaPair: {
-          question: validatedFields.data.question,
-          answer: result.answer,
-          sources: result.sources,
-        },
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: "Cevap oluşturulurken bir hata oluştu.",
-        qaPair: null,
-      };
-    }
+  const validatedFields = questionSchema.safeParse({
+    documentContent: formData.get("documentContent"),
+    question: formData.get("question"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      message: "Geçersiz giriş.",
+      qaPair: null,
+    };
   }
+
+  try {
+    const result = await askQuestionAboutDocument(validatedFields.data);
+    return {
+      message: "Cevap başarıyla oluşturuldu.",
+      qaPair: {
+        question: validatedFields.data.question,
+        answer: result.answer,
+        sources: result.sources,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      message: "Cevap oluşturulurken bir hata oluştu.",
+      qaPair: null,
+    };
+  }
+}

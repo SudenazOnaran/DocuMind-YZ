@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,6 @@ import { useState } from "react";
 import { summarizeUploadedDocument } from "@/ai/flows/summarize-uploaded-document";
 import { createDocument } from "@/app/actions/create-document";
 import { useRouter } from "next/navigation";
-
-
 
 export function DocumentUploadButton() {
   const { open } = useSidebar();
@@ -87,7 +85,8 @@ export function DocumentUploadButton() {
         <DialogHeader>
           <DialogTitle>Yeni Belge Yükle</DialogTitle>
           <DialogDescription>
-            Belgenizi sisteme yükleyin. AI destekli özellikler için işleme alınacaktır.
+            Belgenizi sisteme yükleyin. AI destekli özellikler için işleme
+            alınacaktır.
           </DialogDescription>
         </DialogHeader>
 

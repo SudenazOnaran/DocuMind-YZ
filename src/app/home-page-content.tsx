@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import type { Document } from "@/lib/types";
@@ -22,10 +22,12 @@ function DocumentList({
     <nav className="space-y-2">
       {documents.map((doc) => (
         <button key={doc.id} onClick={() => onSelectDocument(doc)}>
-          <Card className={cn(
-            "hover:bg-accent/80",
-            selectedDocument?.id === doc.id && "bg-accent"
-          )}>
+          <Card
+            className={cn(
+              "hover:bg-accent/80",
+              selectedDocument?.id === doc.id && "bg-accent"
+            )}
+          >
             <CardContent className="p-3 flex gap-3">
               <FileText className="h-5 w-5 mt-1 text-muted-foreground" />
               <div>
@@ -42,7 +44,11 @@ function DocumentList({
   );
 }
 
-export default function HomePageContent({ documents }: { documents: Document[] }) {
+export default function HomePageContent({
+  documents,
+}: {
+  documents: Document[];
+}) {
   const { open } = useSidebar();
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(
     documents[0] ?? null

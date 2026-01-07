@@ -44,3 +44,22 @@ next-env.d.ts
 firebase-debug.log
 firestore-debug.log
 /src/generated/prisma
+
+# Sanal Ortamlar (ASLA YÜKLENMEMELİ)
+venv/
+vector-service/venv/
+.venv/
+
+# Python Gereksiz Dosyaları
+__pycache__/
+*.pyc
+vector-service/__pycache__/
+
+# Gizli Anahtarlar (GÜVENLİK İÇİN)
+.env
+.env.local
+vector-service/.env
+vector-service/.env.local
+
+# Geçici Test Dosyaları
+vector-service/test-api.py
